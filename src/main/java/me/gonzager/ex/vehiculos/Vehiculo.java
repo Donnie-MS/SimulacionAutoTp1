@@ -26,9 +26,14 @@ public class Vehiculo {
             kilometraje += kmADesplazar;
         }
         else {
+            Double kmQuePudoRecorrer = this.kmQuePuedeRecorrer();
             kilometraje += this.kmQuePuedeRecorrer();
-            combustible -= combustible;
-        }  
+            combustible = 0.0;
+            throw new RuntimeException("Combustible insuficiente," +
+            "solo puede recorrer" + kmQuePudoRecorrer + "Del total de " + 
+            kmADesplazar + "kilometros.");
+        }
+        
     }
     
     public boolean puedeRecorrer(Double kmARecorrer) {
