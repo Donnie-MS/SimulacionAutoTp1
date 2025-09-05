@@ -13,7 +13,8 @@ public class ConduccionEcologica implements TipoDeConduccion{
     public TipoDeConduccion siguiente() {
         return new ConduccionEstandar();
     }
-    @Override TipoDeConduccion anterior() {
+    @Override 
+    public TipoDeConduccion anterior() {
         return null;
     }
 }

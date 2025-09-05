@@ -2,26 +2,41 @@ package me.gonzager.ex.vehiculos;
 
 import me.gonzager.ex.TiposDeConduccion.ConduccionEcologica;
 import me.gonzager.ex.TiposDeConduccion.TipoDeConduccion;
-/*
-La simulación a modelar es desplazar indicandole una 
-cantidad de kilómetros a recorrer. Al desplazarse, deben:
 
-Restar del combustible la cantidad consumida 
-para recorrer la distancia solicitada.
-Sumar los kilómetros recorridos al kilometraje total.
 
- */
 public class Vehiculo {
-    private Double cantDeCombustible;
+    private Double combustible;
     private Double kilometraje = 0.0;
     private TipoDeConduccion tipoDeConduccion = new ConduccionEcologica();
 
-    public Vehiculo(Double cantDeCombustible) {
-        this.cantDeCombustible = cantDeCombustible;
+    public Vehiculo(Double combustible) {
+        this.combustible = combustible;
+    }
+    /*
+    Si el combustible no es suficiente para recorrer la distancia 
+    solicitada, el vehículo se desplazará hasta donde le alcance el
+     combustible, actualizará sus atributos correspondientes 
+     (combustible y kilometraje) e informará con un error que 
+     no pudo completar el recorrido solicitado con el siguiente mensaje:
+    "Combustible insuficiente, solo pude recorrer X del total de Y kilometros.";
+     */
+    public void desplazar(Double kmADesplazar) {
+        if (puedeRecorrer(kmADesplazar)) {
+            combustible -= (kmADesplazar / tipoDeConduccion.consumo());
+            kilometraje += kmADesplazar;
+        }
+        else {
+            kilometraje += this.kmQuePuedeRecorrer();
+            combustible -= combustible;
+        }  
     }
     
-    public void desplazar(Double cantKilometros) {
+    public boolean puedeRecorrer(Double kmARecorrer) {
+        return kmARecorrer >= this.kmQuePuedeRecorrer();
+    }
 
+    public Double kmQuePuedeRecorrer() {
+        return tipoDeConduccion.consumo() * combustible;
     }
 
     public void avanzarTipo() {
