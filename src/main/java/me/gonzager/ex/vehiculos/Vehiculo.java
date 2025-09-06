@@ -2,6 +2,7 @@ package me.gonzager.ex.vehiculos;
 
 import me.gonzager.ex.TiposDeConduccion.ConduccionEcologica;
 import me.gonzager.ex.TiposDeConduccion.TipoDeConduccion;
+import me.gonzager.ex.Validador.Validador;
 
 
 public class Vehiculo {
@@ -10,16 +11,9 @@ public class Vehiculo {
     private TipoDeConduccion tipoDeConduccion = new ConduccionEcologica();
 
     public Vehiculo(Double combustible) {
-        this.combustible = combustible;
+        this.combustible = Validador.positivo(combustible, "Ingrese un valor positivo");
     }
-    /*
-    Si el combustible no es suficiente para recorrer la distancia 
-    solicitada, el vehículo se desplazará hasta donde le alcance el
-     combustible, actualizará sus atributos correspondientes 
-     (combustible y kilometraje) e informará con un error que 
-     no pudo completar el recorrido solicitado con el siguiente mensaje:
-    "Combustible insuficiente, solo pude recorrer X del total de Y kilometros.";
-     */
+
     public void desplazar(Double kmADesplazar) {
         if (puedeRecorrer(kmADesplazar)) {
             combustible -= (kmADesplazar / tipoDeConduccion.consumo());
@@ -36,8 +30,12 @@ public class Vehiculo {
         
     }
     
+    public Double getKilometraje() {
+        return kilometraje;
+    }
+
     public boolean puedeRecorrer(Double kmARecorrer) {
-        return kmARecorrer >= this.kmQuePuedeRecorrer();
+        return kmARecorrer <= this.kmQuePuedeRecorrer();
     }
 
     public Double kmQuePuedeRecorrer() {
@@ -58,6 +56,10 @@ public class Vehiculo {
 
     public Double getVelocidadMaxima() {
         return tipoDeConduccion.velocidadMaxima();
+    }
+
+    public Double getCombustible() {
+        return combustible;
     }
 }
 
